@@ -116,6 +116,44 @@ config BR2_GCC_VERSION
 	default "5.3.0"     if BR2_GCC_VERSION_5_X
 	default "arc-2015.06" if BR2_GCC_VERSION_4_8_ARC
 
+config BR2_USE_LINARO_GCC
+	bool "Select Linaro GCC"
+	depends on BR2_arm && (BR2_GCC_VERSION_4_8_X || BR2_GCC_VERSION_4_9_X)
+	help
+	  Linaro GCC is performance focused branch of the current
+	  GCC stable release and includes backports of the
+	  improvements and bug fixes that Linaro and others have
+	  done upstream.
+
+if BR2_USE_LINARO_GCC
+
+config BR2_LINARO_GCC_VERSION
+	string
+	default "4.8"	if BR2_GCC_VERSION_4_8_X
+	default "4.9"	if BR2_GCC_VERSION_4_9_X
+
+choice
+	prompt "Linaro GCC Release"
+	default BR2_LINARO_RELEASE_2015_02 if BR2_GCC_VERSION_4_8_X
+	default BR2_LINARO_RELEASE_2015_06 if BR2_GCC_VERSION_4_9_X
+	help
+	  Select the release of Linaro GCC you wish to use.
+
+	config BR2_LINARO_RELEASE_2015_02
+		bool "2015.02"
+
+	config BR2_LINARO_RELEASE_2015_06
+		bool "2015.06" if BR2_GCC_VERSION_4_9_X
+
+endchoice
+
+config BR2_LINARO_RELEASE
+	string
+	default "2015.02"	if BR2_LINARO_RELEASE_2015_02
+	default "2015.06"	if BR2_LINARO_RELEASE_2015_06
+
+endif
+
 config BR2_EXTRA_GCC_CONFIG_OPTIONS
 	string "Additional gcc options"
 	default ""

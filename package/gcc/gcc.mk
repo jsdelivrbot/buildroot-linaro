@@ -19,6 +19,13 @@ endif
 
 GCC_SOURCE ?= gcc-$(GCC_VERSION).tar.bz2
 
+ifeq ($(BR2_USE_LINARO_GCC),y)
+LINARO_GCC_VERSION = $(call qstrip,$(BR2_LINARO_GCC_VERSION))
+LINARO_RELEASE = $(call qstrip,$(BR2_LINARO_RELEASE))
+GCC_SITE = http://releases.linaro.org/$(subst 20,,$(LINARO_RELEASE))/components/toolchain/gcc-linaro/$(LINARO_GCC_VERSION)/
+GCC_SOURCE = gcc-linaro-$(LINARO_GCC_VERSION)-$(LINARO_RELEASE).tar.xz
+endif
+
 #
 # Xtensa special hook
 #
